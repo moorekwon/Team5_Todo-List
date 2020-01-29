@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Item</h2>
+
+<form action="{% url 'main:add-todo' %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="content" placeholder="Type here.">
+    <button type="submit">Submit</button>
+</form>
+
+<ul>
+    {% for todo_item in todo_items %}
+    <li>
+        {{ todo_item.text }}
+        <form action="{% url 'main:delete-todo' pk=todo_item.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
