@@ -26,8 +26,23 @@ def add_todo(request):
         return render(request, 'main/add_todo.html')
 
 
+def update_todo(request, pk):
+    todo = Todo.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        todo.text = request.POST['text']
+        todo.start_date = request.POST['start_date']
+        todo.end_date = request.POST['end_date']
+        todo.priority = str(request.POST['priority'])
+        todo.save()
+        return redirect('main:index')
+    else:
+        context = {
+            'todo': todo
+        }
+        return render(request, 'main/update_todo.html', context)
+
+
 def delete_todo(request, pk):
     Todo.objects.get(pk=pk).delete()
     return redirect('main:index')
-
-

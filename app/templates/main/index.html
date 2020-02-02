@@ -2,15 +2,22 @@
 
 {% block content %}
 <h2>My Todos</h2>
+
 <div>
     <a href="{% url 'main:add-todo' %}">+Add Todo</a>
+</div>
+<br>
+
+<div>
+    <span>날짜별</span>
+    <span>우선순위별</span>
+    <span>상태별</span>
 </div>
 
 <ul>
     {% for todo_item in todo_items %}
     <li>
-        {{ todo_item.text }} <small>({{ todo_item.start_date|date:"Y-m-d" }} ~ {{ todo_item.end_date|date:"Y-m-d"
-        }})</small>
+        {{ todo_item.text }} <small>({{ todo_item.start_date|date:"Y-m-d" }} ~ {{ todo_item.end_date|date:"Y-m-d" }})</small>
         우선순위: {{ todo_item.priority }}
 
         <input type="radio" name="{{ todo_item.pk }}" value="completed"> 완료
@@ -20,8 +27,7 @@
             <button type="submit">Delete</button>
         </form>
 
-        <form action="">
-            {% csrf_token %}
+        <form action="{% url 'main:update-todo' pk=todo_item.pk %}" method="get">
             <button type="submit">Update</button>
         </form>
     </li>
