@@ -1,21 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Add Item</h2>
-
-<form action="{% url 'main:add-todo' %}" method="post">
-    {% csrf_token %}
-    <input type="number" name="priority" placeholder="우선 순위">
-    <input type="text" name="text" placeholder="할 일">
-    <input type="date" name="start_date" placeholder="시작 날짜">
-    <input type="date" name="end_date" placeholder="끝나는 날짜">
-    <button type="submit">Submit</button>
-</form>
+<h2>My Todos</h2>
+<div>
+    <a href="{% url 'main:add-todo' %}">+Add Todo</a>
+</div>
 
 <ul>
     {% for todo_item in todo_items %}
     <li>
-        {{ todo_item.text }} <small>({{ todo_item.start_date|date:"Y-m-d" }} ~ {{ todo_item.end_date|date:"Y-m-d" }})</small>
+        {{ todo_item.text }} <small>({{ todo_item.start_date|date:"Y-m-d" }} ~ {{ todo_item.end_date|date:"Y-m-d"
+        }})</small>
         우선순위: {{ todo_item.priority }}
 
         <input type="radio" name="{{ todo_item.pk }}" value="completed"> 완료

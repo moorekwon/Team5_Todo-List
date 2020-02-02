@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Add Item</h2>
+
+<form action="{% url 'main:add-todo' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="number" name="priority" placeholder="우선 순위">
+    <input type="text" name="text" placeholder="할 일">
+    <input type="date" name="start_date" placeholder="시작 날짜">
+    <input type="date" name="end_date" placeholder="끝나는 날짜">
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

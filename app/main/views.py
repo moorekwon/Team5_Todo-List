@@ -14,18 +14,16 @@ def index(request):
 
 
 def add_todo(request):
-    text = request.POST['text']
-    start_date = request.POST['start_date']
-    end_date = request.POST['end_date']
-    priority = str(request.POST['priority'])
-    status = str(request.POST['status'])
+    if request.method == 'POST':
+        text = request.POST['text']
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        priority = str(request.POST['priority'])
 
-    Todo.objects.create(text=text, start_date=start_date, end_date=end_date, priority=priority,
-                        status=status)
-
-    print('priority >>> ', priority)
-    print('status >>> ', status)
-    return redirect('main:index')
+        Todo.objects.create(text=text, start_date=start_date, end_date=end_date, priority=priority)
+        return redirect('main:index')
+    else:
+        return render(request, 'main/add_todo.html')
 
 
 def delete_todo(request, pk):
