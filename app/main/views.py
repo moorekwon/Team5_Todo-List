@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from django.utils import timezone
-
 from main.models import Todo
 
 
 def index(request):
-    todo_items = Todo.objects.all().order_by('-added_date')
+    todo_items = Todo.objects.all().order_by('-start_date')
 
     context = {
         'todo_items': todo_items
@@ -16,12 +14,22 @@ def index(request):
 
 
 def add_todo(request):
-    current_date = timezone.now()
-    content = request.POST['content']
-    Todo.objects.create(added_date=current_date, text=content)
+    text = request.POST['text']
+    start_date = request.POST['start_date']
+    end_date = request.POST['end_date']
+    priority = str(request.POST['priority'])
+    status = str(request.POST['status'])
+
+    Todo.objects.create(text=text, start_date=start_date, end_date=end_date, priority=priority,
+                        status=status)
+
+    print('priority >>> ', priority)
+    print('status >>> ', status)
     return redirect('main:index')
 
 
 def delete_todo(request, pk):
     Todo.objects.get(pk=pk).delete()
     return redirect('main:index')
+
+

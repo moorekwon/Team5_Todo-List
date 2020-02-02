@@ -5,17 +5,29 @@
 
 <form action="{% url 'main:add-todo' %}" method="post">
     {% csrf_token %}
-    <input type="text" name="content" placeholder="Type here.">
+    <input type="number" name="priority" placeholder="우선 순위">
+    <input type="text" name="text" placeholder="할 일">
+    <input type="date" name="start_date" placeholder="시작 날짜">
+    <input type="date" name="end_date" placeholder="끝나는 날짜">
     <button type="submit">Submit</button>
 </form>
 
 <ul>
     {% for todo_item in todo_items %}
     <li>
-        {{ todo_item.text }}
+        {{ todo_item.text }} <small>({{ todo_item.start_date|date:"Y-m-d" }} ~ {{ todo_item.end_date|date:"Y-m-d" }})</small>
+        우선순위: {{ todo_item.priority }}
+
+        <input type="radio" name="{{ todo_item.pk }}" value="completed"> 완료
+        <input type="radio" name="{{ todo_item.pk }}" value="not-completed" checked> 미완료
         <form action="{% url 'main:delete-todo' pk=todo_item.pk %}" method="post">
             {% csrf_token %}
             <button type="submit">Delete</button>
+        </form>
+
+        <form action="">
+            {% csrf_token %}
+            <button type="submit">Update</button>
         </form>
     </li>
     {% endfor %}
