@@ -18,10 +18,8 @@
     {% for todo_item in todo_items %}
     <li>
         {{ todo_item.text }} <small>({{ todo_item.start_date|date:"Y-m-d" }} ~ {{ todo_item.end_date|date:"Y-m-d" }})</small>
-        우선순위: {{ todo_item.priority }}
+<!--        우선순위: {{ todo_item.priority }}-->
 
-        <input type="radio" name="{{ todo_item.pk }}" value="completed"> 완료
-        <input type="radio" name="{{ todo_item.pk }}" value="not-completed" checked> 미완료
         <form action="{% url 'main:delete-todo' pk=todo_item.pk %}" method="post">
             {% csrf_token %}
             <button type="submit">Delete</button>

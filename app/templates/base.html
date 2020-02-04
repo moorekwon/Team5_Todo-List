@@ -14,7 +14,17 @@
     {% endblock %}
 </head>
 <body>
-
+{% if not user.is_authenticated %}
+<form action="{% url 'members:signin' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Login</legend>
+        Username <input type="text" name="username">
+        Password <input type="text" name="password">
+        <button type="submit">로그인</button>
+    </fieldset>
+</form>
+{% endif %}
 
 {% block content %}
 {% endblock %}

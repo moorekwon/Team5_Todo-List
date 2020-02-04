@@ -5,7 +5,7 @@ from main.models import Todo
 
 
 def index(request):
-    todo_items = Todo.objects.all().order_by('-start_date')
+    todo_items = Todo.objects.all().order_by('end_date')
 
     context = {
         'todo_items': todo_items
@@ -18,9 +18,9 @@ def add_todo(request):
         text = request.POST['text']
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
-        priority = str(request.POST['priority'])
+        # priority = str(request.POST['priority'])
 
-        Todo.objects.create(text=text, start_date=start_date, end_date=end_date, priority=priority)
+        Todo.objects.create(text=text, start_date=start_date, end_date=end_date)
         return redirect('main:index')
     else:
         return render(request, 'main/add_todo.html')
@@ -33,7 +33,7 @@ def update_todo(request, pk):
         todo.text = request.POST['text']
         todo.start_date = request.POST['start_date']
         todo.end_date = request.POST['end_date']
-        todo.priority = str(request.POST['priority'])
+        # todo.priority = str(request.POST['priority'])
         todo.save()
         return redirect('main:index')
     else:
