@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="{% url 'members:signup' %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <legend>가입하기</legend>
+        Username <input type="text" name="username">
+        Password <input type="text" name="password">
+        <button type="submit">가입하기</button>
+    </fieldset>
+</form>
+{% endblock %}

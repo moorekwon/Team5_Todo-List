@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
 <div>
     <p><strong>User</strong> {{ request.user }}</p>
 </div>
 
 <div>
+    <a href="{% url 'members:signin' %}">로그인</a>
     <a href="{% url 'members:signout' %}">로그아웃</a>
+    <a href="{% url 'members:signup' %}">가입하기</a>
 </div>
 <hr>
 
@@ -28,7 +29,8 @@
     {% for todo_item in todo_items %}
     <li>
         <strong>{{ todo_item.author }}</strong>
-        {{ todo_item.text }} <small>({{ todo_item.start_date|date:"Y-m-d" }} ~ {{ todo_item.end_date|date:"Y-m-d" }})</small>
+        {{ todo_item.text }}
+        <small>({{ todo_item.start_date }} ~ {{ todo_item.end_date }})</small>
         <!--        우선순위: {{ todo_item.priority }}-->
 
         <form action="{% url 'main:delete-todo' pk=todo_item.pk %}" method="post">
@@ -37,10 +39,10 @@
         </form>
 
         <form action="{% url 'main:update-todo' pk=todo_item.pk %}" method="get">
+            {% csrf_token %}
             <button type="submit">Update</button>
         </form>
     </li>
     {% endfor %}
 </ul>
-{% endif %}
 {% endblock %}

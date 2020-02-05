@@ -17,22 +17,25 @@ def signin(request):
             return redirect('main:index')
         else:
             raise ValidationError('username 또는 password가 틀립니다.')
-            return redirect('main:index')
+            return redirect('members:signin')
     else:
-        return render(request, 'main/index.html')
+        return render(request, 'members/signin.html')
 
 
 def signup(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    users = User.objects.all()
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        users = User.objects.all()
 
-    if users.filter(username=username):
-        return HttpResponse('이미 사용중인 username 입니다.')
+        if users.filter(username=username):
+            return HttpResponse('이미 사용중인 username 입니다.')
+        else:
+            user = User.objects.create_user(username=username, password=password)
+            login(request, user)
+            return redirect('main:index')
     else:
-        user = User.objects.create_user(username=username, password=password)
-        login(request, user)
-        return render(request, 'main/index.html')
+        return render(request, 'members/signup.html')
 
 
 def signout(request):
