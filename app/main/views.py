@@ -15,12 +15,13 @@ def index(request):
 
 def add_todo(request):
     if request.method == 'POST':
+        author = request.user
         text = request.POST['text']
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
         # priority = str(request.POST['priority'])
 
-        Todo.objects.create(text=text, start_date=start_date, end_date=end_date)
+        Todo.objects.create(author=author, text=text, start_date=start_date, end_date=end_date)
         return redirect('main:index')
     else:
         return render(request, 'main/add_todo.html')

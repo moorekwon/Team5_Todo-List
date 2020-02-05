@@ -1,5 +1,7 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 
@@ -15,6 +17,24 @@ def signin(request):
             return redirect('main:index')
         else:
             raise ValidationError('username 또는 password가 틀립니다.')
-            return redirect('base')
+            return redirect('main:index')
     else:
         return render(request, 'main/index.html')
+
+
+def signup(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    users = User.objects.all()
+
+    if users.filter(username=username):
+        return HttpResponse('이미 사용중인 username 입니다.')
+    else:
+        user = User.objects.create_user(username=username, password=password)
+        login(request, user)
+        return render(request, 'main/index.html')
+
+
+def signout(request):
+    logout(request)
+    return redirect('main:index')

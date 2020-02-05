@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if user.is_authenticated %}
+<div>
+    <p><strong>User</strong> {{ request.user }}</p>
+</div>
+
+<div>
+    <a href="{% url 'members:signout' %}">로그아웃</a>
+</div>
+<hr>
+
 <h2>My Todos</h2>
 
 <div>
@@ -17,8 +27,9 @@
 <ul>
     {% for todo_item in todo_items %}
     <li>
+        <strong>{{ todo_item.author }}</strong>
         {{ todo_item.text }} <small>({{ todo_item.start_date|date:"Y-m-d" }} ~ {{ todo_item.end_date|date:"Y-m-d" }})</small>
-<!--        우선순위: {{ todo_item.priority }}-->
+        <!--        우선순위: {{ todo_item.priority }}-->
 
         <form action="{% url 'main:delete-todo' pk=todo_item.pk %}" method="post">
             {% csrf_token %}
@@ -31,4 +42,5 @@
     </li>
     {% endfor %}
 </ul>
+{% endif %}
 {% endblock %}
