@@ -1,12 +1,28 @@
 {% extends 'base.html' %}
+
+{% block head %}
+<style>
+    .text-center {
+        width: 400px;
+    }
+</style>
+{% endblock %}
+
+
 {% block content %}
-<form action="{% url 'members:signup' %}" method="post">
+<body class="text-center mx-auto text-center">
+<form class="form-signin m-3" action="{% url 'members:signup' %}" method="post">
     {% csrf_token %}
-    <fieldset>
-        <legend>가입하기</legend>
-        Username <input type="text" name="username">
-        Password <input type="text" name="password">
-        <button type="submit">가입하기</button>
-    </fieldset>
+    <h1 class="h3 m-3 font-weight-normal">가입하기</h1>
+
+    <label for="inputUsername" class="sr-only">Username</label>
+    <input type="text" name="username" id="inputUsername" class="form-control m-2" placeholder="Username" required
+           autofocus>
+
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control m-2" placeholder="Password" required>
+
+    <button class="btn btn-primary m-2" type="submit">가입하기</button>
 </form>
+</body>
 {% endblock %}
