@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from main.filters import SearchFilter
 from main.models import Todo
 
 
@@ -9,6 +10,16 @@ def index(request):
 
     context = {
         'todo_items': todo_items
+    }
+    return render(request, 'main/index.html', context)
+
+
+def search_todo(request):
+    search_list = Todo.objects.all()
+    search_filter = SearchFilter(request.GET, queryset=search_list)
+
+    context = {
+        'search_filter': search_filter
     }
     return render(request, 'main/index.html', context)
 
