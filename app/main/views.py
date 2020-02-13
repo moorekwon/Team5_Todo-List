@@ -53,13 +53,12 @@ def delete_todo(request, pk):
     return redirect('main:index')
 
 
-# def check_todo(request, pk):
-#     todo = Todo.objects.get(pk=pk)
-#     status = request.POST['status']
-#
-#     todo_status = TodoStatus.objects.filter(todo=todo)
-#     if todo_status.exist():
-#         todo_status.delete()
-#     else:
-#         TodoStatus.objects.create(todo=todo, status=status)
-#     return redirect('main:index')
+def check_todo(request, pk):
+    todo = Todo.objects.get(pk=pk)
+
+    if todo.status:
+
+
+    else:
+        TodoStatus.objects.create(todo=todo, status=status)
+    return redirect('main:index')
