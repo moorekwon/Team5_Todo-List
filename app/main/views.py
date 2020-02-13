@@ -2,24 +2,19 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from main.filters import SearchFilter
-from main.models import Todo
+from main.models import Todo, TodoStatus
 
 
 def index(request):
-    todo_items = Todo.objects.all().order_by('end_date')
+    search_text = request.GET.get('search_text')
+    query = Todo.objects.all()
+    if search_text:
+        todo_items = query.filter(text__contains=search_text)
+    else:
+        todo_items = query
 
     context = {
-        'todo_items': todo_items
-    }
-    return render(request, 'main/index.html', context)
-
-
-def search_todo(request):
-    search_list = Todo.objects.all()
-    search_filter = SearchFilter(request.GET, queryset=search_list)
-
-    context = {
-        'search_filter': search_filter
+        'todo_items': todo_items,
     }
     return render(request, 'main/index.html', context)
 
@@ -30,7 +25,6 @@ def add_todo(request):
         text = request.POST['text']
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
-        # priority = str(request.POST['priority'])
 
         Todo.objects.create(author=author, text=text, start_date=start_date, end_date=end_date)
         return redirect('main:index')
@@ -45,7 +39,6 @@ def update_todo(request, pk):
         todo.text = request.POST['text']
         todo.start_date = request.POST['start_date']
         todo.end_date = request.POST['end_date']
-        # todo.priority = str(request.POST['priority'])
         todo.save()
         return redirect('main:index')
     else:
@@ -58,3 +51,15 @@ def update_todo(request, pk):
 def delete_todo(request, pk):
     Todo.objects.get(pk=pk).delete()
     return redirect('main:index')
+
+
+# def check_todo(request, pk):
+#     todo = Todo.objects.get(pk=pk)
+#     status = request.POST['status']
+#
+#     todo_status = TodoStatus.objects.filter(todo=todo)
+#     if todo_status.exist():
+#         todo_status.delete()
+#     else:
+#         TodoStatus.objects.create(todo=todo, status=status)
+#     return redirect('main:index')

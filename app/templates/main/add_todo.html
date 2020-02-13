@@ -1,14 +1,52 @@
 {% extends 'base.html' %}
 
+{% block head %}
+<style>
+    body {
+        width: 400px;
+        margin: 100px auto;
+        background-color: #f5f5f5;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h2>Add Todo</h2>
+<body>
+<h2 class="display-4 font-weight-normal">Add Todo</h2>
 
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-<!--    <input type="number" name="priority" placeholder="우선 순위">-->
-    <input type="text" name="text" placeholder="할 일">
-    <input type="text" onfocus="(this.type='date')" name="start_date" placeholder="시작 날짜">
-    <input type="text" onfocus="(this.type='date')" name="end_date" placeholder="끝나는 날짜">
-    <button type="submit">Submit</button>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="text">할 일</span>
+        </div>
+        <input type="text" name="text" class="form-control" aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="start_date">시작 날짜</span>
+        </div>
+        <input type="text" onfocus="(this.type='date')" name="start_date" class="form-control"
+               aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-default">
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="end_date">끝나는 날짜</span>
+        </div>
+        <input type="text" onfocus="(this.type='date')" name="end_date" class="form-control"
+               aria-label="Sizing example input"
+               aria-describedby="inputGroup-sizing-default">
+    </div>
+    <button type="submit" class="btn btn-outline-info">Submit</button>
 </form>
+</body>
 {% endblock %}
