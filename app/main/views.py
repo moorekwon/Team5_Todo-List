@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from main.filters import SearchFilter
-from main.models import Todo, TodoStatus
+from main.models import Todo
 
 
 def index(request):
@@ -55,10 +54,10 @@ def delete_todo(request, pk):
 
 def check_todo(request, pk):
     todo = Todo.objects.get(pk=pk)
-
     if todo.status:
-
-
+        todo.status = False
+        todo.save()
     else:
-        TodoStatus.objects.create(todo=todo, status=status)
+        todo.status = True
+        todo.save()
     return redirect('main:index')

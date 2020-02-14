@@ -14,6 +14,7 @@
 
 
 
+
 </style>
 {% endblock %}
 
@@ -67,11 +68,11 @@
                 <div class="card-body">
                     <strong class="d-inline-block mb-2 text-primary">{{ todo_item.author }}</strong>
 
-                    <form action="{% url 'main:check-todo' pk=todo.pk %}" method="post">
-                        {% csrf_token %}
-                        <button type="button" class="btn btn-outline-success btn-sm">완료</button>
-                        <button type="button" class="btn btn-outline-secondary btn-sm">미완료</button>
-                    </form>
+                    {% if todo_item.status %}
+                    <a href="{% url 'main:check-todo' pk=todo_item.pk %}" class="btn btn-success btn-sm">완료</a>
+                    {% else %}
+                    <a href="{% url 'main:check-todo' pk=todo_item.pk %}" class="btn btn-secondary btn-sm">미완료</a>
+                    {% endif %}
 
                     <h5 class="card-title">{{ todo_item.text }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ todo_item.start_date }} ~ {{ todo_item.end_date }}</h6>
