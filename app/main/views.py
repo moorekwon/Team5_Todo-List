@@ -5,12 +5,20 @@ from main.models import Todo
 
 
 def index(request):
+    completed = request.GET.get('completed')
     search_text = request.GET.get('search_text')
-    query = Todo.objects.all()
+    order = request.GET.get('order')
+    if order is None:
+        order = '-created'
+    print('asdasds', request.path)
+    query = Todo.objects.all().order_by(order)
     if search_text:
         todo_items = query.filter(text__contains=search_text)
     else:
         todo_items = query
+
+    if completed:
+        todo_items = query.filter(status=completed)
 
     context = {
         'todo_items': todo_items,
@@ -60,4 +68,9 @@ def check_todo(request, pk):
     else:
         todo.status = True
         todo.save()
+    return redirect('main:index')
+
+
+def sort_by_start_date(request):
+    Todo.objects.all().order_by('start_date')
     return redirect('main:index')

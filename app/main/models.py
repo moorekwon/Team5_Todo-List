@@ -11,8 +11,5 @@ class Todo(models.Model):
     status = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        ordering = ('created',)
-
     def __str__(self):
         return self.title, self.text
