@@ -69,8 +69,3 @@ def check_todo(request, pk):
         todo.status = True
         todo.save()
     return redirect('main:index')
-
-
-def sort_by_start_date(request):
-    Todo.objects.all().order_by('start_date')
-    return redirect('main:index')
