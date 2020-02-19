@@ -5,13 +5,15 @@ from main.models import Todo
 
 
 def index(request):
+    order = request.GET.get('order')
     completed = request.GET.get('completed')
     search_text = request.GET.get('search_text')
-    order = request.GET.get('order')
+
     if order is None:
         order = '-created'
-    print('asdasds', request.path)
+
     query = Todo.objects.all().order_by(order)
+
     if search_text:
         todo_items = query.filter(text__contains=search_text)
     else:
